@@ -1,5 +1,6 @@
 #include "yeson.h"
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int is_valid_json_string(char *str) {
@@ -21,6 +22,18 @@ int is_valid_json_string(char *str) {
         continue;
       }
     }
+  }
+  return 1;
+}
+
+int is_valid_json_numbers(char *str) {
+  char *end_ptr;
+  strtod(str, &end_ptr);
+  if (str == end_ptr) {
+    return 0;
+  }
+  if (*end_ptr != '\0') {
+    return 0;
   }
   return 1;
 }
