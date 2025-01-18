@@ -21,9 +21,12 @@ int main() {
     index++;
   }
   fclose(fptr);
+  
+  // Testing Place
   printf("%s\n", content_buffer);
-  char *str_test = "\"\"";
+  char *str_test = "\"Hel\\\"lo\"";
   printf("%s\n", str_test);
   printf("%d\n", is_valid_json_string(str_test));
   return 0;
 }
+
