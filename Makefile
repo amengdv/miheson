@@ -1,5 +1,5 @@
 # Compiler and flags
-CFLAGS = -Wall -Wextra -Iinclude -O2
+CFLAGS = -Wall -Wextra -Iinclude
 
 # Directories
 SRC_DIR = src
