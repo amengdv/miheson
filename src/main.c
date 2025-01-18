@@ -27,7 +27,7 @@ int main() {
   char *str_test = "\"Hel\\\"lo\"";
   printf("%s\n", str_test);
   printf("%d\n", is_valid_json_string(str_test));
-  char *num_test = "123E6";
+  char *num_test = "0.e6";
   printf("Test num 1: %d\n", is_valid_json_numbers(num_test));
   return 0;
 }
