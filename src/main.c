@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "hello.h"
+#include "yeson.h"
 
 int main() {
   FILE *fptr;
@@ -13,11 +13,17 @@ int main() {
   char ch;
   int index = 0;
   while ((ch = fgetc(fptr)) != EOF) {
+    // Skip spaces so that our array is clean
+    if (ch == ' ' || ch == '\t' || ch == '\n') {
+      continue;
+    }
     content_buffer[index] = ch;
     index++;
   }
-  printf("%s\n", content_buffer);
   fclose(fptr);
-  hello();
+  printf("%s\n", content_buffer);
+  char *str_test = "\"\"";
+  printf("%s\n", str_test);
+  printf("%d\n", is_valid_json_string(str_test));
   return 0;
 }
