@@ -1,3 +1,8 @@
 {
-    "Name": "Amin kafri"
+    "amin": "kafri",
+    "arr": [
+        "yeah",
+        "i know",
+        1
+    ]
 }

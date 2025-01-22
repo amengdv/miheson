@@ -1,4 +1,5 @@
 # Compiler and flags
+CC = cc
 CFLAGS = -Wall -Wextra -Iinclude
 
 # Directories
