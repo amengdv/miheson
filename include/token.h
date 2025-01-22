@@ -17,6 +17,7 @@ typedef enum {
 
     STRING,
     NUMBERS,
+    BOOLEAN,
 
     END,
     INVALID

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 #include "lexer.h"
 #include "yeson.h"
 
@@ -58,6 +60,37 @@ token next_token(lexer *l) {
         break;
 
     default:
+        if (isdigit(l->ch) || l->ch == '.' || l->ch == 'e' ||
+            l->ch == 'E') {
+            /* printf("numzz\n"); */
+            char buffer[128] = {0};
+            int index = 0;
+            while (isdigit(l->ch) || l->ch == '.' || l->ch == 'e' ||
+            l->ch == 'E') {
+                buffer[index++] = l->ch;
+                next_char(l);
+            }
+            /* printf("NUMZ: %s\n", buffer); */
+            if (is_valid_json_numbers(buffer)) {
+                t = new_token(NUMBERS, buffer);
+                break;
+            }
+
+        } else if (l->ch == 't' || l->ch == 'f') {
+            char buffer[20];
+            int index = 0;
+            /* printf("found em: %c\n", l->prev_ch); */
+            while (index < 20 && isalpha(l->ch)) {
+                buffer[index++] = l->ch;
+                next_char(l);
+            }
+                            
+            if (strcmp(buffer, "true") == 0 || strcmp(buffer, "false") == 0) {
+                t = new_token(BOOLEAN, buffer);
+                break;
+            }
+            printf("%s\n", buffer);
+        }
         t = new_token(INVALID, "ERROR");
         
     }
