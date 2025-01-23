@@ -11,13 +11,32 @@ int main() {
     }
 
     lexer l = new_lexer(fptr);
+    int token_th = 1;
     token t;
-    while((t = next_token(&l)).tok_type != END) {
-        if (t.tok_type == INVALID) {
-            printf("Not a Valid JSON\n");
+    //token prev_t;
+    int valid = 1;
+    while(1) {
+        //prev_t = t;
+        t = next_token(&l);
+        token_th++;
+        // BREAK WHEN REACH END OF FILE
+        if (t.tok_type == END) {
+            if (token_th == 1) {
+                valid = 0;
+            }
+            break;
+        } else if (t.tok_type == INVALID) {
+            valid = 0;
             break;
         }
-        print_token(t);
+        
+    }
+    
+    printf("token count: %d\n", token_th);
+    if (valid == 1) {
+        printf("VALID JSON!\n");
+    } else {
+        printf("INVALID JSON!\n");
     }
     
     fclose(fptr);

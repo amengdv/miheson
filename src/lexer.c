@@ -60,6 +60,7 @@ token next_token(lexer *l) {
         break;
 
     default:
+		// Check if digit
         if (isdigit(l->ch) || l->ch == '.' || l->ch == 'e' ||
             l->ch == 'E') {
             /* printf("numzz\n"); */
@@ -76,8 +77,9 @@ token next_token(lexer *l) {
                 break;
             }
 
+			// Check if boolean
         } else if (l->ch == 't' || l->ch == 'f') {
-            char buffer[20];
+            char buffer[20] = {0};
             int index = 0;
             /* printf("found em: %c\n", l->prev_ch); */
             while (index < 20 && isalpha(l->ch)) {
