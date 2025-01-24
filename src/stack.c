@@ -27,6 +27,7 @@ void push_stack(stack_t *stack, state item) {
 	if (stack->length == stack->capacity) {
 		state *temp = realloc(stack->data, (2 * stack->capacity) * sizeof(state));
 		if (temp == NULL) {
+			free(stack->data);
 			return;
 		}
 		stack->data = temp;
