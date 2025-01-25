@@ -101,9 +101,15 @@ token next_token(lexer *l) {
 }
 
 token get_string_token(lexer *l) {
+	token t;
     char buffer[1024];
     int index = 0;
+	int valid_string = 1;
     do {
+		if (l->ch == EOF || index > 1023) {
+			valid_string = 0;
+			break;
+		}
         buffer[index++] = l->ch;
         next_char(l);
         if (l->ch == '"' && l->prev_ch == '\\') {
@@ -113,11 +119,15 @@ token get_string_token(lexer *l) {
         }
     } while(l->ch != '"');
 
-    
-    buffer[index++] = '"';
-    buffer[index] = '\0';
+    if (valid_string) {
+		buffer[index++] = '"';
+		buffer[index] = '\0';
+	} else {
+        t.tok_type = INVALID;
+        t.value = "ERROR";
+		return t;
+	}
 
-    token t;
     if (is_valid_json_string(buffer)) {
         t.tok_type = STRING;
         t.value = buffer;

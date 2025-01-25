@@ -19,4 +19,5 @@ typedef struct Stack {
 stack_t *new_stack(size_t);
 void free_stack(stack_t *);
 void push_stack(stack_t *, state);
+state peek_stack(stack_t *);
 state pop_stack(stack_t *);

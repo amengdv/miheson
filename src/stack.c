@@ -23,6 +23,13 @@ void free_stack(stack_t *stack) {
 	free(stack);
 }
 
+state peek_stack(stack_t *stack) {
+	if (stack->length == 0) {
+		return -1;
+	}
+	return stack->data[stack->length - 1];
+}
+
 void push_stack(stack_t *stack, state item) {
 	if (stack->length == stack->capacity) {
 		state *temp = realloc(stack->data, (2 * stack->capacity) * sizeof(state));
@@ -38,7 +45,7 @@ void push_stack(stack_t *stack, state item) {
 
 state pop_stack(stack_t *stack) {
 	if (stack->length == 0) {
-		return 0;
+		return -1;
 	}
 
 	state data = stack->data[stack->length - 1];
