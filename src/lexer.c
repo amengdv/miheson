@@ -102,7 +102,7 @@ token next_token(lexer *l) {
 
 token get_string_token(lexer *l) {
 	token t;
-    char buffer[1024];
+    char buffer[1024] = {0};
     int index = 0;
 	int valid_string = 1;
     do {
@@ -119,21 +119,21 @@ token get_string_token(lexer *l) {
         }
     } while(l->ch != '"');
 
+
     if (valid_string) {
 		buffer[index++] = '"';
 		buffer[index] = '\0';
 	} else {
-        t.tok_type = INVALID;
-        t.value = "ERROR";
+		t = new_token(STRING, "ERROR");
 		return t;
 	}
 
+	/*printf("Buffer: %s\n", buffer);*/
+
     if (is_valid_json_string(buffer)) {
-        t.tok_type = STRING;
-        t.value = buffer;
+		t = new_token(STRING, buffer);
     } else {
-        t.tok_type = INVALID;
-        t.value = "ERROR";
+		t = new_token(STRING, "ERROR");
     }
 
     return t;

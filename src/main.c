@@ -11,65 +11,81 @@ int main() {
         return 1;
     }
 
+	lexer l = new_lexer(fptr);
+
 	stack_t *state_stack = new_stack(10);
 	push_stack(state_stack, NEITHER);
-	int valid = 1;
-    lexer l = new_lexer(fptr);
-	token t;
+
+	token next_t = { -1, "START" };
+	token curr_t = { -1, "START" };
+
 	state curr_state;
-	while ((t = next_token(&l)).tok_type != END) {
-		if (t.tok_type == INVALID) {
+	int valid = 1;
+
+	while (1) {
+		curr_t = next_t;
+		next_t = next_token(&l);
+		printf("Current Token: ");
+		print_token(curr_t);
+
+		printf("Next Token: ");
+		print_token(next_t);
+
+		if (curr_t.tok_type == INVALID) {
+			valid = 0;
+			break;
+		} else if (curr_t.tok_type == END) {
+			break;
+		} 
+
+		if (curr_t.tok_type == COMMA && (next_t.tok_type == END ||
+			next_t.tok_type == R_BRACE || next_t.tok_type == R_SQUARE)) {
 			valid = 0;
 			break;
 		}
-		if (t.tok_type == L_BRACE) {
+
+		if (curr_t.tok_type == L_BRACE) {
+			printf("Lebrace\n");
 			push_stack(state_stack, OBJECT);
-		} else if (t.tok_type == L_SQUARE) {
+		} else if (curr_t.tok_type == L_SQUARE) {
 			push_stack(state_stack, ARRAY);
-		} else if (t.tok_type == R_BRACE || t.tok_type == R_SQUARE) {
+		} else if (curr_t.tok_type == R_BRACE || curr_t.tok_type == R_SQUARE) {
 			pop_stack(state_stack);
 		}
 
 		curr_state = peek_stack(state_stack);
 
-		// IF CURRENT STATE IS OBJECT
 		if (curr_state == OBJECT) {
-			token kv_pairs[3] = {0};
-			int wrong_in_loop = 0;
-			for (int i = 0; i < 3; ++i) {
-				printf("%d\n", i);
-				kv_pairs[i] = next_token(&l);
-				print_token(kv_pairs[i]);
-				if (kv_pairs[i].tok_type == INVALID) {
+			if (curr_t.tok_type == L_BRACE) {
+				if (next_t.tok_type == R_BRACE || next_t.tok_type == STRING) {
+					continue;
+				} else {
 					valid = 0;
-					wrong_in_loop = 1;
 					break;
 				}
-				if (kv_pairs[i].tok_type == R_BRACE && i == 0) {
-					valid = 1;
-					wrong_in_loop = 1;
-					break;
-				} else if (kv_pairs[i].tok_type == R_BRACE && i != 0) {
+			}  else if (curr_t.tok_type == COMMA) {
+				if (next_t.tok_type != STRING) {
 					valid = 0;
-					wrong_in_loop = 1;
 					break;
 				}
-				if (kv_pairs[i].tok_type == END) {
+			} else if (curr_t.tok_type == STRING) {
+				if (next_t.tok_type == COLON || next_t.tok_type == COMMA 
+				|| next_t.tok_type == R_BRACE) {
+					continue;
+				} else {
+					printf("debug\n");
 					valid = 0;
-					wrong_in_loop = 1;
 					break;
-				} 
-			}
-
-			if (wrong_in_loop == 1) break;
-
-			if (kv_pairs[0].tok_type!= STRING && kv_pairs[1].tok_type != COLON
-				&& kv_pairs[2].tok_type != STRING) {
-				valid = 0;
-				break;
+				}
+			} else {
+				continue;
 			}
 		}
 
+	}
+
+	if (pop_stack(state_stack) != NEITHER) {
+		valid = 0;
 	}
 
 	if (valid == 0) {
@@ -84,5 +100,3 @@ int main() {
   
     return 0;
 }
-
-
