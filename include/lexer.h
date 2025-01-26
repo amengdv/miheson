@@ -15,4 +15,4 @@ token new_token(token_type tok_type, char *value);
 token next_token(lexer *l);
 
 void print_token(token t);
-
+void next_char(lexer *l);

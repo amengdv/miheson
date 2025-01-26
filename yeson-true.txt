@@ -1,3 +1,10 @@
 {
-	"Amin": "Kafri"
+	"Biodata": {
+		"Name": "Muhammad Amin",
+		"Age": 21,
+		"Crazy": false,
+		"Again": {
+			"Not crazy": "Yeah"
+		}
+	}
 }
