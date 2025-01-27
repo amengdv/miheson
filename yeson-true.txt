@@ -1,10 +1,12 @@
 {
-	"Biodata": {
-		"Name": "Muhammad Amin",
-		"Age": 21,
-		"Crazy": false,
-		"Again": {
-			"Not crazy": "Yeah"
-		}
-	}
+	"Amin": "Kafri",
+	"arr": [
+		"amin",
+		"kafri",
+		{
+			"amin": "yeah",
+			"another": [1, 2, 3, 4, {}]
+		},
+		[]
+	]
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 typedef enum {
+	START = -1,
     // { }
     L_BRACE,
     R_BRACE,
